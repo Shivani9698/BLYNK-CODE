@@ -1,0 +1,50 @@
+// Template ID, Device Name and Auth Token are provided by the Blynk.Cloud
+// See the Device Info jb tab, or Template settings
+#define BLYNK_TEMPLATE_ID "TMPL3XUDIMBEO"
+#define BLYNK_TEMPLATE_NAME "POT AND LED"
+#define BLYNK_AUTH_TOKEN "OiGBv7x6OfDuRGdiLiz840vmf6y70wP3"
+ 
+
+// Comment this out to disable prints and save space
+#define BLYNK_PRINT Serial
+
+#include <WiFi.h>
+#include <WiFiClient.h>
+#include <BlynkSimpleEsp32.h>
+
+char auth[] = BLYNK_AUTH_TOKEN;
+
+// Your WiFi credentials.
+// Set password to "" for open networks.
+char ssid[] = "FTTHBSNL";
+char pass[] = "29915693";
+ 
+BlynkTimer timer;
+const int IR_Sensor = 13;
+
+void setup()
+{
+ 
+  pinMode(IR_Sensor,INPUT);
+  // Debug console
+  Serial.begin(115200);
+
+  Blynk.begin(auth, ssid, pass);
+}
+
+void loop()
+{
+  Blynk.run();
+
+   int IR_State = digitalRead(IR_Sensor);
+
+  if(IR_State == LOW){
+    Serial.println("Obstacle detected");
+  }else{
+    Serial.println("No Obstacle");
+  }
+  delay(100);
+
+  Blynk.virtualWrite(V3,IR_State);
+
+}
